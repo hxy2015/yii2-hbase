@@ -28,7 +28,7 @@ return [
     //....
     'components' => [
         'hbase' => [
-            'class' => 'yii\hbase\Connection',
+            'class' => 'hxy2015\hbase\Connection',
             'host' => 'localhost',
             'port' => '8080',
         ],
