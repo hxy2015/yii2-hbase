@@ -1,0 +1,28 @@
+{
+    "name": "hxy2015/yii2-hbase",
+    "description": "Hbase integration for the Yii framework",
+    "keywords": ["yii2", "hbase", "search"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "source": "https://github.com/hxy2015/yii2-hbase.git"
+    },
+    "authors": [
+        {
+            "name": "huangxy",
+            "email": "huangxy10@qq.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.0",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": { "hxy2015\\hbase\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
