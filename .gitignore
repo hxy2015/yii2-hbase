@@ -28,4 +28,4 @@ phpunit.phar
 /phpunit.xml
 
 # local tests files
-/tests/data/config.local.php
+/tests/config.local.php
