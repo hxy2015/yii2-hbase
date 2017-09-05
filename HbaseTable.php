@@ -3,7 +3,7 @@ namespace hxy2015\hbase;
 use yii\base\Component;
 
 /**
- * @author Huangxiaoyuan <huangxy@jiedaibao.com>
+ * @author huangxy <huangxy10@qq.com>
  */
 class HbaseTable extends Component
 {

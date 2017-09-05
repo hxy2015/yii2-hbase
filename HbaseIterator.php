@@ -4,7 +4,7 @@ namespace hxy2015\hbase;
 use yii\base\Component;
 
 /**
- * @author Huangxiaoyuan <huangxy@jiedaibao.com>
+ * @author huangxy <huangxy10@qq.com>
  */
 abstract class HbaseIterator extends Component implements \Countable, \Iterator
 {

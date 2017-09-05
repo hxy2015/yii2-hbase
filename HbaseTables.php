@@ -4,7 +4,7 @@ namespace hxy2015\hbase;
 use InvalidArgumentException;
 
 /**
- * @author Huangxiaoyuan <huangxy@jiedaibao.com>
+ * @author huangxy <huangxy10@qq.com>
  */
 class HbaseTables extends HbaseIterator
 {

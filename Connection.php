@@ -9,7 +9,7 @@ use yii\base\Component;
 /**
  * Connection to hbase
  * 
- * @author Huangxiaoyuan <huangxy@jiedaibao.com>
+ * @author huangxy<huangxy10@qq.com>
  */
 class Connection extends Component
 {
@@ -19,11 +19,11 @@ class Connection extends Component
     const EVENT_AFTER_OPEN = 'afterOpen';
 
     /**
-     * @var string the hostname or ip address to use for connecting to the redis server. Defaults to 'localhost'.
+     * @var string the hostname or ip address to use for connecting to the hbase server. Defaults to 'localhost'.
      */
     public $host = 'localhost';
     /**
-     * @var integer the port to use for connecting to the redis server. Default port is 8086.
+     * @var integer the port to use for connecting to the hbase server. Default port is 8086.
      */
     public $port = 8086;
 
