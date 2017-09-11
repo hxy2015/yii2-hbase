@@ -35,3 +35,23 @@ return [
     ]
 ];
 ```
+
+Usage
+-------------
+存储数据
+
+```php
+Yii::get('hbase')->tables()->table('user')->row('12')->put('base_info:name', 'huangxiaohu');
+
+```
+
+查询数据
+
+```php
+# 取某一列族数据
+Yii::get('hbase')->tables()->table('user')->row('12')->get('base_info');
+
+# 取某一列数据
+Yii::get('hbase')->tables()->table('user')->row('12')->get('base_info:name');
+
+```
