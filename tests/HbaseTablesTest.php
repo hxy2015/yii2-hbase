@@ -8,7 +8,6 @@ class HbaseTablesTest extends HbaseTestCase
         $db = $this->getConnection();
         $tables = $db->tables();
         echo count($tables);
-        var_dump($tables->names());
     }
 
     public function testCreate()

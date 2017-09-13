@@ -156,6 +156,7 @@ class Connection extends Component
         }
 
         $curl = curl_init();
+        $endpoint = 'http://'.$this->host.':'.$this->port.$url;
         curl_setopt($curl, CURLOPT_URL, 'http://'.$this->host.':'.$this->port.$url);
         curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($curl, CURLOPT_HEADER, 1);
@@ -186,11 +187,30 @@ class Connection extends Component
         }
 //        $start = 1000*microtime(true);
         $data = curl_exec($curl);
-        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        
 //        if ($http_code < 200 || $http_code >=300) {
 //            throw new Exception('Error ' . $url. ' in response\n ' . $data);
 //        }
 //        echo 'http://'.$this->host.':'.$this->port.$url . '  cost: ' . round((microtime(true)*1000 - $start)/1000, 3).  PHP_EOL;
+
+        if ($data === false) {
+            throw new \Exception('Hbase request failed: ' . curl_errno($curl) . ' - ' . curl_error($curl), [
+                'url' => $endpoint,
+                'method' => $method,
+            ]);
+        } else {
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if ($httpCode == 404) {
+                return false;
+            }
+            
+            if ($httpCode < 200 && $httpCode >= 300) {
+                throw new \Exception("Hbase request failed with code $httpCode. Response body:\n{$data}", [
+                    'url' => $endpoint,
+                    'method' => $method,
+                ]);
+            }
+        }
 
         list($_headers,$body) = explode("\r\n\r\n", $data, 2);
         $_headers = explode("\r\n",$_headers);
