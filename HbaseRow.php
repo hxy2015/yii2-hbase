@@ -86,7 +86,16 @@ class HbaseRow extends Component
             return $result_arr[0]['data'];
         }
 
-        return base64_decode($body['Row'][0]['Cell'][0]['$']);
+        // Family Column 的情况
+        if (is_array($body['Row'][0]['Cell'])) {
+            $ret = [];
+            foreach ($body['Row'][0]['Cell'] as $cell) {
+                $ret[base64_decode($cell['column'])] = base64_decode($cell['$']);
+            }
+            return $ret;
+        } else {
+            return base64_decode($body['Row'][0]['Cell'][0]['$']);
+        }
     }
 
     public function multiGet($column, $count = 100)
