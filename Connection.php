@@ -185,14 +185,12 @@ class Connection extends Component
                 curl_setopt($curl, CURLOPT_HTTPGET, 1);
                 break;
         }
-//        $start = 1000*microtime(true);
+        $start = 1000*microtime(true);
         $data = curl_exec($curl);
         
-//        if ($http_code < 200 || $http_code >=300) {
-//            throw new Exception('Error ' . $url. ' in response\n ' . $data);
-//        }
-//        echo 'http://'.$this->host.':'.$this->port.$url . '  cost: ' . round((microtime(true)*1000 - $start)/1000, 3).  PHP_EOL;
+//        echo $endpoint . '  cost: ' . round((microtime(true)*1000 - $start)/1000, 3).  PHP_EOL;
 
+        Yii::info('Hbase curl "' . $endpoint . '" cost:'. round((microtime(true)*1000 - $start)/1000, 3));
         if ($data === false) {
             throw new \Exception('Hbase request failed: ' . curl_errno($curl) . ' - ' . curl_error($curl), [
                 'url' => $endpoint,

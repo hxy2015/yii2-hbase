@@ -87,14 +87,15 @@ class HbaseRow extends Component
         }
 
         // Family Column 的情况
-        if (is_array($body['Row'][0]['Cell'])) {
+        $cells = $body['Row'][0]['Cell'];
+        if (count($cells) == 1) {
+            return base64_decode($cells[0]['$']);
+        } else {
             $ret = [];
-            foreach ($body['Row'][0]['Cell'] as $cell) {
+            foreach ($cells as $cell) {
                 $ret[base64_decode($cell['column'])] = base64_decode($cell['$']);
             }
             return $ret;
-        } else {
-            return base64_decode($body['Row'][0]['Cell'][0]['$']);
         }
     }
 

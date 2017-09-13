@@ -27,8 +27,6 @@ class HbaseRowTest extends HbaseTestCase
         $row->put('base_info:age', '14');
 
         $this->assertSame('zhangsan3', $row->get('base_info:username'));
-        
-        var_dump($row->multiGet('base_info'));
     }
 
 //    public function tearDown()
@@ -43,7 +41,7 @@ class HbaseRowTest extends HbaseTestCase
         $table = $this->tables->table($this->testTable);
 
         $value = [];
-        for ($i=0; $i<30000; $i++) {
+        for ($i=0; $i<30; $i++) {
             $value[] = [
                     "zx_usernm" => "好朋友", 
                     "list_username"=> "hehe",
