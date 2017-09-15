@@ -68,34 +68,24 @@ class HbaseRow extends Component
      *            ->row('my_row')
      *                ->get('my_column_family:my_column');
      */
-    public function get($column, $timestamp=null){
+    public function get($column)
+    {
         $getUrl = $this->table .'/'.$this->key.'/'.$column;
-        $getUrl .= (isset($timestamp)) ? '/'.($timestamp+1).','.($timestamp+2) : '';
 
         $body = $this->db->get($getUrl);
 
-        if(is_null($body)){
+        if(empty($body)){
             return null;
         }
 
-        if (isset($timestamp)) {
-            $result_arr = $this->parseMultiRowBody($body);
-            if (empty($result_arr)) {
-                return null;
-            }
-            return $result_arr[0]['data'];
-        }
-
         // Family Column 的情况
-        $cells = $body['Row'][0]['Cell'];
-        if (count($cells) == 1) {
-            return base64_decode($cells[0]['$']);
-        } else {
-            $ret = [];
+        if (isset($body['Row'][0]['Cell'])) {
+            $cells = $body['Row'][0]['Cell'];
             foreach ($cells as $cell) {
                 $ret[base64_decode($cell['column'])] = base64_decode($cell['$']);
-            }
-            return $ret;
+            }    
+        } else {
+            return null;
         }
     }
 
@@ -112,15 +102,14 @@ class HbaseRow extends Component
     {
         $bodyArray = $body;
 
-        $result = array();
+        $result = [];
 
         if (isset($bodyArray['Row'][0]['Cell']) && $bodyArray['Row'][0]['Cell'] > 0) {
             foreach ($bodyArray['Row'][0]['Cell'] as $key => $value) {
-                $result[] = array(
-                    'column' => base64_decode($value['column']),
+                $result[base64_decode($value['column'])] = [
                     'timestamp' => $value['timestamp'],
                     'data'      => base64_decode($value['$'])
-                );
+                ];
             }
         }
 
