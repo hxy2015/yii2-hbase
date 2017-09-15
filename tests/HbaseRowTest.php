@@ -25,16 +25,32 @@ class HbaseRowTest extends HbaseTestCase
         $row = $this->tables->table($this->testTable)->row('hehe');
         $row->put('base_info:username', 'zhangsan3');
         $row->put('base_info:age', '14');
-
-        $this->assertSame('zhangsan3', $row->get('base_info:username')['username']);
+        
+        $this->assertSame('zhangsan3', $row->get('base_info:username'));
     }
 
-//    public function tearDown()
-//    {
-//        if ($this->tables->exists($this->testTable)) {
-//            $this->tables->delete($this->testTable);
-//        }
-//    }
+    public function testGet()
+    {
+        $row = $this->tables->table($this->testTable)->row('haha');
+        $row->delete();
+
+        // row不存在
+        $this->assertSame(null, $row->get('base_info'));
+
+        // row不存在
+        $this->assertSame(null, $row->get('base_info:hehe'));
+
+        $row->put('base_info:username', 'zhangsan3');
+        $row->put('base_info:age', '14');
+
+        // 获取 column family
+        $this->assertEquals(['username' => 'zhangsan3', 'age' => 14], $row->get('base_info'));
+
+        // 获取 column
+        $this->assertSame('zhangsan3', $row->get('base_info:username'));
+
+        $row->delete();
+    }
 
     public function testProfile()
     {
@@ -65,7 +81,7 @@ class HbaseRowTest extends HbaseTestCase
     {
         $table = $this->tables->table($this->testTable);
         $row = $table->row('heheda');
-        $value = $row->get('base_info:123432334')['123432334'];
+        $value = $row->get('base_info:123432334');
         echo count(json_decode($value, true)) . PHP_EOL;
     }
 }

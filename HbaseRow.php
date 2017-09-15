@@ -74,19 +74,35 @@ class HbaseRow extends Component
 
         $body = $this->db->get($getUrl);
 
+
         if(empty($body)){
             return null;
         }
 
-        // Family Column 的情况
-        if (isset($body['Row'][0]['Cell'])) {
-            $cells = $body['Row'][0]['Cell'];
-            foreach ($cells as $cell) {
-                $ret[base64_decode($cell['column'])] = base64_decode($cell['$']);
-            }    
-        } else {
-            return null;
+        $arr = explode(':', $column);
+
+        // ColumnFamily
+        if (count($arr) == 1) {
+            if (isset($body['Row'][0]['Cell'])) {
+                $cells = $body['Row'][0]['Cell'];
+                $ret = [];
+                foreach ($cells as $cell) {
+                    $c = base64_decode($cell['column']);
+                    $columnName = str_replace($column.':', '', $c);
+                    $ret[$columnName] = base64_decode($cell['$']);
+                }
+                return $ret;
+            }   
         }
+        
+        // Column
+        if (count($arr) == 2) {
+            if (isset($body['Row'][0]['Cell'])) {
+                return base64_decode($body['Row'][0]['Cell'][0]['$']);
+            }
+        }
+        
+        return null;
     }
 
     public function multiGet($column, $count = 100)
