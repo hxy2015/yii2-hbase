@@ -194,10 +194,7 @@ class Connection extends Component
 
         Yii::info('Hbase curl "' . $endpoint . '" cost:'. round((microtime(true)*1000 - $start)/1000, 3));
         if ($data === false) {
-            throw new \Exception('Hbase request failed: ' . curl_errno($curl) . ' - ' . curl_error($curl), [
-                'url' => $endpoint,
-                'method' => $method,
-            ]);
+            throw new \Exception('Hbase request failed: ' . curl_errno($curl) . ' - ' . curl_error($curl));
         } else {
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             if ($httpCode == 404) {
@@ -205,10 +202,7 @@ class Connection extends Component
             }
             
             if ($httpCode < 200 && $httpCode >= 300) {
-                throw new \Exception("Hbase request failed with code $httpCode. Response body:\n{$data}", [
-                    'url' => $endpoint,
-                    'method' => $method,
-                ]);
+                throw new \Exception("Hbase request failed with code $httpCode. Response body:\n{$data}");
             }
         }
 
